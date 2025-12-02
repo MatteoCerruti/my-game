@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elimina Account - 2048</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a8b2d1;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .option-box {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            transition: all 0.3s ease;
+        }
+
+        .option-box:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .option-box h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+            color: #a8b2d1;
+        }
+
+        ol li {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            line-height: 1.6;
+        }
+
+        ol li strong {
+            color: #ffffff;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 0;
+            color: #a8b2d1;
+        }
+
+        ul li {
+            margin-bottom: 12px;
+            padding-left: 35px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .warning-box {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box strong {
+            color: #ffa726;
+            font-size: 1.1rem;
+        }
+
+        .warning-box p {
+            color: #a8b2d1;
+            margin-bottom: 10px;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 35px;
+            border-radius: 15px;
+            margin: 35px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .contact-box h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .contact-box p {
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .contact-box a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-box a:hover {
+            border-bottom-color: white;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .time-badge.warning {
+            background: #ff9800;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.9rem;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        p {
+            color: #8892b0;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        strong {
+            color: #ffffff;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .option-box {
+                padding: 20px;
+            }
+
+            .option-box h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Torna alla home</a>
+
+        <h1>🗑️ ELIMINA ACCOUNT</h1>
+        <p class="subtitle">Come eliminare il tuo account e tutti i dati associati</p>
+
+        <div class="option-box">
+            <h3>
+                🚀 OPZIONE 1: DALL'APP 
+                <span class="badge">IMMEDIATO</span>
+            </h3>
+            <ol>
+                <li>Apri l'app <strong>2048</strong></li>
+                <li>Vai su <strong>"Profilo"</strong></li>
+                <li>Vai su <strong>"Impostazioni"</strong></li>
+                <li>Premi <strong>"Elimina account"</strong></li>
+                <li>Conferma l'eliminazione</li>
+            </ol>
+            <div class="time-badge">⏱️ Eliminazione: IMMEDIATA</div>
+        </div>
+
+        <div class="option-box">
+            <h3>📧 OPZIONE 2: VIA EMAIL</h3>
+            <p>Invia richiesta a: <a href="mailto:mcerruti00@gmail.com"><strong>mcerruti00@gmail.com</strong></a></p>
+            <p style="margin-top: 15px;"><strong>Oggetto:</strong> "Richiesta eliminazione account 2048"</p>
+            <p style="margin-top: 15px;"><strong>Includi:</strong></p>
+            <ul style="margin-top: 10px;">
+                <li>Email dell'account Google associato</li>
+                <li>Conferma di voler eliminare tutti i dati</li>
+            </ul>
+            <div class="time-badge warning">⏱️ Tempi: entro 7 giorni lavorativi</div>
+        </div>
+
+        <h2>📦 COSA VIENE ELIMINATO</h2>
+        <p>Eliminando l'account, vengono rimossi <strong>PERMANENTEMENTE</strong>:</p>
+        <ul>
+            <li>Tutti i punteggi e progressi di gioco</li>
+            <li>Temi acquistati e monete virtuali</li>
+            <li>Preferenze (lingua, tema)</li>
+            <li>Account Google collegato all'app</li>
+            <li>Tutti i dati salvati su Firebase Cloud</li>
+            <li>Storico partite</li>
+        </ul>
+
+        <h2>🚫 COSA NON VIENE CONSERVATO</h2>
+        <div class="warning-box">
+            <p><strong>⚠️ ATTENZIONE</strong></p>
+            <p>Nessun dato viene conservato dopo l'eliminazione.</p>
+            <p style="margin-top: 10px;">L'eliminazione è <strong>PERMANENTE</strong> e <strong>IRREVERSIBILE</strong>.</p>
+            <p style="margin-top: 10px;">Non è possibile recuperare i dati dopo la cancellazione.</p>
+        </div>
+
+        <h2>⏰ PERIODO DI CONSERVAZIONE</h2>
+        <p>I dati vengono eliminati <strong>IMMEDIATAMENTE</strong> e in modo permanente.</p>
+        <p>Non c'è periodo di conservazione.</p>
+
+        <div class="contact-box">
+            <h3>📧 DOMANDE?</h3>
+            <p><strong>Email:</strong> <a href="mailto:mcerruti00@gmail.com">mcerruti00@gmail.com</a></p>
+            <p><strong>Sviluppatore:</strong> Matteo Cerruti</p>
+            <p><strong>App:</strong> 2048 (Google Play Store)</p>
+            <p style="margin-top: 15px;"><strong>Risposta entro:</strong> 7 giorni lavorativi</p>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 - 2048 Game by Matteo Cerruti</p>
+            <p>Varazze, Italia</p>
+        </div>
+    </div>
+</body>
+</html>
